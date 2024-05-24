@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Network</title>
+    <script
+      type="text/javascript"
+      src="/node_modules/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
+    <style type="text/css">
+      #mynetwork {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mynetwork"></div>
+    <script type="text/javascript">
+      // create an array with nodes
+      var nodes = new vis.DataSet([
+        { id: 1, label: "A" },
+        { id: 2, label: "B" },
+        { id: 3, label: "C" },
+        { id: 4, label: "D" },
+        { id: 5, label: "E" },
+      ]);
+
+      // create an array with edges
+      var edges = new vis.DataSet([
+        { from: 1, to: 3, label:"12"},
+        { from: 1, to: 2 },
+        { from: 2, to: 4 },
+        { from: 2, to: 5 },
+      ]);
+
+      // create a network
+      var container = document.getElementById("mynetwork");
+      var data = {
+        nodes: nodes,
+        edges: edges,
+      };
+      var index=0;
+      var options = {
+        manipulation:{
+                addNode: function(nodeData, callback){
+                    nodeData.label=String.fromCharCode(index + 'A'.charCodeAt(0));
+                    index++;
+                    callback(nodeData);
+                },
+                addEdge: function(edgeData,callback){
+                    edgeData.label=prompt("entrer le valeur de l'arc: ");
+                    callback(edgeData);
+                },
+                editNode: function (data, callback) {
+                    // filling in the popup DOM elements
+                    data.label=prompt("entrer la nouvelle valeur du noeud: ");
+                    callback(data);
+                },
+                editEdge: function(edgeData, callback){
+                    edgeData.label=prompt("entrer la nouvelle valeur de l'arc: ");
+                    callback(edgeData);
+                },
+
+
+            }
+        };
+      var network = new vis.Network(container, data, options);
+    </script>
+  </body>
+</html>
